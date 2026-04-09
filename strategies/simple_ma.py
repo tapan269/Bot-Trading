@@ -29,6 +29,16 @@ def _moving_average(prices: list[float], period: int) -> float:
     return sum(prices[-period:]) / period
 
 
+def compute_ma_values(
+    bars: list[dict], cfg: MAConfig
+) -> tuple[float | None, float | None]:
+    """Return (short_ma, long_ma) for the latest bar, or (None, None) if insufficient data."""
+    closes = [bar["c"] for bar in bars]
+    if len(closes) < cfg.long_period:
+        return None, None
+    return _moving_average(closes, cfg.short_period), _moving_average(closes, cfg.long_period)
+
+
 def compute_signal(bars: list[dict], cfg: MAConfig) -> Signal:
     """Compute a trading signal from a list of OHLCV bar dicts.
 

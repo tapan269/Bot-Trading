@@ -16,6 +16,9 @@ venv/
 .venv/
 env/
 
+# Local storage
+*.db
+
 # Logs
 *.log
 logs/
